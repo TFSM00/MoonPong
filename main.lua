@@ -8,9 +8,13 @@ function love.load()
     left_paddle = Paddle(30, WINDOW_HEIGHT/2-50, 20, 150)
     right_paddle = Paddle(WINDOW_WIDTH-30-20, WINDOW_HEIGHT/2-50, 20, 150)
     ball = Ball(WINDOW_WIDTH/2+10, WINDOW_HEIGHT/2+10, 10)
-
     left_paddle:add_mv_keys({'w', 's', 'a', 'd'})
     right_paddle:add_mv_keys({'up', 'down', 'left', 'right'})
+    score_left = 0
+    score_right = 0
+
+    font = love.graphics.newFont(36, "mono")
+    love.graphics.setFont(font)
     
 end
 
@@ -46,9 +50,17 @@ function love.update(dt)
     if ball.x - ball.r < 0 then
         ball.x = ball.r
         ball.dx = -ball.dx
+        score_right = score_right + 1
+        ball:reset()
+        left_paddle:reset()
+        right_paddle:reset()
     elseif ball.x + ball.r > WINDOW_WIDTH then
         ball.x = WINDOW_WIDTH - ball.r
         ball.dx = -ball.dx
+        score_left = score_left + 1
+        ball:reset()
+        left_paddle:reset()
+        right_paddle:reset()
     end
 
     -- Paddles
@@ -67,6 +79,9 @@ function love.draw()
     left_paddle:draw_to_screen()
     right_paddle:draw_to_screen()
     ball:draw_to_screen()
+
+    love.graphics.print(score_left, font, WINDOW_WIDTH/2 - 200, 50)
+    love.graphics.print(score_right, font, WINDOW_WIDTH/2 + 200, 50)
 end
 
 

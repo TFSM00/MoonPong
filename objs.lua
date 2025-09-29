@@ -10,6 +10,8 @@ Ball = Object:extend()
 ---@field w number
 ---@field h number
 function Paddle:new (x, y, w, h)
+    self.init_x = x
+    self.init_y = y
     self.x = x
     self.y = y
     self.w = w
@@ -34,20 +36,34 @@ function Paddle:move(direction, dt)
     end
 end
 
+function Paddle:reset()
+    self.x = self.init_x
+    self.y = self.init_y
+end
+
 
 function Ball:new(x, y, r)
+    self.init_x = x
+    self.init_y = y
     self.x = x
     self.y = y
     self.r = r
     self.speed = 150
     -- initial direction (e.g., right and slightly up)
     self.dx = self.speed
-    self.dy = -self.speed
+    self.dy = 1.2 * self.speed
 end
 
 function Ball:move(dt)
     self.x = self.x + self.dx * dt
     self.y = self.y + self.dy * dt
+end
+
+function Ball:reset()
+    self.x = self.init_x
+    self.y = self.init_y
+    self.dx = self.speed
+    self.dy = -1.2 * self.speed
 end
 
 function Ball:draw_to_screen()

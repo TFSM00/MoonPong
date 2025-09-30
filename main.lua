@@ -12,7 +12,7 @@ function love.load()
     right_paddle:add_mv_keys({'up', 'down', 'left', 'right'})
     score_left = 0
     score_right = 0
-
+    backdrop = love.graphics.newImage('assets/moon_backdrop.png')
     font = love.graphics.newFont(36, "mono")
     love.graphics.setFont(font)
     
@@ -38,24 +38,24 @@ function love.update(dt)
         end
     end
     -- Top/bottom walls
-    if ball.y - ball.r < 0 then
-        ball.y = ball.r
+    if ball.y < 0 then
+        ball.y = 0
         ball.dy = -ball.dy
-    elseif ball.y + ball.r > WINDOW_HEIGHT then
-        ball.y = WINDOW_HEIGHT - ball.r
+    elseif ball.y + ball.h > WINDOW_HEIGHT then
+        ball.y = WINDOW_HEIGHT - ball.h
         ball.dy = -ball.dy
     end
 
     -- Left/right walls (optional for Pong, maybe scoring instead)
-    if ball.x - ball.r < 0 then
-        ball.x = ball.r
+    if ball.x < 0 then
+        ball.x = ball.w
         ball.dx = -ball.dx
         score_right = score_right + 1
         ball:reset()
         left_paddle:reset()
         right_paddle:reset()
-    elseif ball.x + ball.r > WINDOW_WIDTH then
-        ball.x = WINDOW_WIDTH - ball.r
+    elseif ball.x + ball.w > WINDOW_WIDTH then
+        ball.x = WINDOW_WIDTH - ball.w
         ball.dx = -ball.dx
         score_left = score_left + 1
         ball:reset()
@@ -65,10 +65,10 @@ function love.update(dt)
 
     -- Paddles
     if utils.checkCollision(left_paddle, ball) then
-        ball.x = left_paddle.x + left_paddle.w + ball.r
+        ball.x = (left_paddle.x + left_paddle.w)
         ball.dx = -ball.dx
     elseif utils.checkCollision(right_paddle, ball) then
-        ball.x = right_paddle.x - ball.r
+        ball.x = right_paddle.x - ball.w
         ball.dx = -ball.dx
     end
     ball:move(dt)
@@ -76,6 +76,7 @@ function love.update(dt)
 end
 
 function love.draw()
+    love.graphics.draw(backdrop, 0, 0)
     left_paddle:draw_to_screen()
     right_paddle:draw_to_screen()
     ball:draw_to_screen()

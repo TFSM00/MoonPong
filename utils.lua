@@ -13,10 +13,10 @@ function utils.checkCollision(a, b)
     local a_top = a.y
     local a_bottom = a.y + a.h
 
-    local b_left = b.x - b.r
-    local b_right = b.x + b.r
-    local b_top = b.y - b.r
-    local b_bottom = b.y + b.r
+    local b_left = b.x
+    local b_right = b.x + b.w
+    local b_top = b.y 
+    local b_bottom = b.y + b.h
 
     --Directly return this boolean value without using if-statement
     return  a_right > b_left
@@ -37,16 +37,16 @@ function utils.checkPaddleCollisionToWindowBorders(a, border)
 end
 
 function utils.checkBallCollisionToWindowTopBottomBorders(a)
-    local a_top = a.y - a.r
-    local a_bottom = a.y + a.r
+    local a_top = a.y
+    local a_bottom = a.y + a.h
 
     return a_top <= 0
         or a_bottom >= WINDOW_HEIGHT
 end
 
 function utils.checkBallCollisionToWindowSideBorders(a)
-    local a_left = a.x - a.r
-    local a_right = a.x + a.r
+    local a_left = a.x
+    local a_right = a.x + a.w
 
     return a_left <= 0
         or a_right >= WINDOW_WIDTH

@@ -47,11 +47,14 @@ function Ball:new(x, y, r)
     self.init_y = y
     self.x = x
     self.y = y
-    self.r = r
     self.speed = 150
     -- initial direction (e.g., right and slightly up)
     self.dx = self.speed
     self.dy = 1.2 * self.speed
+    self.img = love.graphics.newImage('assets/pong.png')
+    self.w = 40
+    self.h = 40
+
 end
 
 function Ball:move(dt)
@@ -68,5 +71,5 @@ end
 
 function Ball:draw_to_screen()
     -- print(self.y)
-    love.graphics.circle("fill", self.x, self.y, self.r)
+    love.graphics.draw(self.img, self.x, self.y)
 end
